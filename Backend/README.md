@@ -239,3 +239,101 @@ Example:
 ### Notes
 - The token is added to a blacklist to prevent reuse.
 - Both cookie and Authorization header tokens are handled.
+
+# Captain Registration Endpoint
+
+## POST /captains/register
+
+### Description
+This endpoint is used to register a new captain. It requires personal information and vehicle details.
+
+### Request Body
+The request body should be a JSON object containing the following fields:
+- `fullname`: An object containing:
+  - `firstname`: The captain's first name (minimum 3 characters)
+  - `lastname`: The captain's last name (minimum 3 characters)
+- `email`: The captain's email address (must be a valid email)
+- `password`: The captain's password (minimum 6 characters)
+- `vehicle`: An object containing:
+  - `color`: The vehicle's color (minimum 3 characters)
+  - `plate`: The vehicle's license plate number (minimum 3 characters)
+  - `capacity`: The vehicle's passenger capacity (minimum 1)
+  - `vehicleType`: The type of vehicle (must be 'car', 'motorcycle', or 'auto')
+
+Example:
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Smith"
+  },
+  "email": "john.smith@example.com",
+  "password": "password123",
+  "vehicle": {
+    "color": "black",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Responses
+
+#### Success
+- **Status Code**: 201 Created
+- **Response Body**: A JSON object containing the captain details and authentication token.
+
+Example:
+```json
+{
+  "token": "your_jwt_token",
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Smith"
+    },
+    "email": "john.smith@example.com",
+    "vehicle": {
+      "color": "black",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+#### Validation Errors
+- **Status Code**: 400 Bad Request
+- **Response Body**: A JSON object containing an array of validation errors.
+
+Example:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "firstname must be at least 3 characters long",
+      "param": "fullname.firstname",
+      "location": "body"
+    },
+    {
+      "msg": "Invalid vehicle type",
+      "param": "vehicle.vehicleType",
+      "location": "body"
+    }
+  ]
+}
+```
+
+### Notes
+- All fields are required
+- The password will be hashed before storing it in the database
+- Vehicle type must be one of: car, motorcycle, or auto
+- Vehicle capacity must be a positive integer
