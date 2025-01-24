@@ -337,3 +337,152 @@ Example:
 - The password will be hashed before storing it in the database
 - Vehicle type must be one of: car, motorcycle, or auto
 - Vehicle capacity must be a positive integer
+
+# Captain Login Endpoint
+
+## POST /captains/login
+
+### Description
+This endpoint is used to log in an existing captain. It requires the captain's email and password.
+
+### Request Body
+The request body should be a JSON object containing:
+- `email`: The captain's email address (must be a valid email)
+- `password`: The captain's password (minimum 6 characters)
+
+Example:
+```json
+{
+  "email": "john.smith@example.com",
+  "password": "password123"
+}
+```
+
+### Responses
+
+#### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing the authentication token and captain details.
+
+Example:
+```json
+{
+  "token": "your_jwt_token",
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Smith"
+    },
+    "email": "john.smith@example.com",
+    "vehicle": {
+      "color": "black",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+#### Validation Errors
+- **Status Code**: 400 Bad Request
+- **Response Body**: A JSON object containing validation errors or error message.
+
+Example:
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+# Captain Profile Endpoint
+
+## GET /captains/profile
+
+### Description
+This endpoint retrieves the profile information of the currently authenticated captain.
+
+### Authentication
+Requires a valid JWT token in the Authorization header or cookie.
+
+### Request
+No request body required.
+
+### Responses
+
+#### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing the captain details.
+
+Example:
+```json
+{
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Smith"
+    },
+    "email": "john.smith@example.com",
+    "vehicle": {
+      "color": "black",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+#### Authentication Error
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+# Captain Logout Endpoint
+
+## GET /captains/logout
+
+### Description
+This endpoint logs out the current captain by invalidating their JWT token and clearing the cookie.
+
+### Authentication
+Requires a valid JWT token in the Authorization header or cookie.
+
+### Request
+No request body required.
+
+### Responses
+
+#### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing a success message.
+
+Example:
+```json
+{
+  "message": "Logout successfully"
+}
+```
+
+#### Authentication Error
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+### Notes
+- The token is added to a blacklist to prevent reuse
+- Both cookie and Authorization header tokens are handled

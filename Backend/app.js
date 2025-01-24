@@ -11,6 +11,7 @@ const captainRoutes = require('./routes/captain.routes');
 connectToDb();
 
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
