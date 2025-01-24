@@ -154,3 +154,88 @@ Example:
 ### Notes
 - Ensure that all required fields are provided in the request body.
 - The password will be compared with the hashed password stored in the database.
+
+# User Profile Endpoint
+
+## GET /users/profile
+
+### Description
+This endpoint retrieves the profile information of the currently authenticated user.
+
+### Authentication
+Requires a valid JWT token in the Authorization header or cookie.
+
+### Request
+No request body required.
+
+### Responses
+
+#### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing the user details.
+
+Example:
+```json
+{
+  "user": {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+#### Authentication Error
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "message": "Authentication required"
+}
+```
+
+# User Logout Endpoint
+
+## GET /users/logout
+
+### Description
+This endpoint logs out the current user by invalidating their JWT token and clearing the cookie.
+
+### Authentication
+Requires a valid JWT token in the Authorization header or cookie.
+
+### Request
+No request body required.
+
+### Responses
+
+#### Success
+- **Status Code**: 200 OK
+- **Response Body**: A JSON object containing a success message.
+
+Example:
+```json
+{
+  "message": "Logout successfully"
+}
+```
+
+#### Authentication Error
+- **Status Code**: 401 Unauthorized
+- **Response Body**: A JSON object containing an error message.
+
+Example:
+```json
+{
+  "message": "Authentication required"
+}
+```
+
+### Notes
+- The token is added to a blacklist to prevent reuse.
+- Both cookie and Authorization header tokens are handled.
