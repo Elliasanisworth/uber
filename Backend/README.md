@@ -442,7 +442,7 @@ Example:
 Example:
 ```json
 {
-  "message": "Unauthorized"
+  "message": "Unautherized"
 }
 ```
 
@@ -479,7 +479,7 @@ Example:
 Example:
 ```json
 {
-  "message": "Unauthorized"
+  "message": "Unautherized"
 }
 ```
 
