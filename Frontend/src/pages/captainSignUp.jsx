@@ -75,7 +75,7 @@ const captainSignUp = () => {
           setPassword(e.target.value)
         }}
        />
-       <button className='bg-black  text-white font-semibold mb-8  rounded px-4 py-2  w-full text-lg placholder:text-base'>Sign Up</button>
+       <button className='bg-black  text-white font-semibold mb-8  rounded px-4 py-2  w-full text-lg placholder:text-base'>Create Account</button>
 
      </form>
        <p className='text-center'>Already have Account? <Link to='/captainlogin' className='text-blue-600'>Login Here</Link></p>
